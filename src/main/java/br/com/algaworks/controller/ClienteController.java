@@ -3,6 +3,8 @@ package br.com.algaworks.controller;
 import java.util.List;
 import java.util.Optional;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -43,12 +45,12 @@ public class ClienteController {
 	
 	@PostMapping
 	@ResponseStatus(code = HttpStatus.CREATED)
-	public Cliente salvar(@RequestBody Cliente cliente) {
+	public Cliente salvar(@Valid @RequestBody Cliente cliente) {
 		return clienteRepository.save(cliente);
 	}
 	
 	@PutMapping("/{clienteId}")
-	public ResponseEntity<Cliente> atualizar(@PathVariable Long clienteId, @RequestBody Cliente cliente) {
+	public ResponseEntity<Cliente> atualizar(@Valid @PathVariable Long clienteId, @RequestBody Cliente cliente) {
 		
 		if (!clienteRepository.existsById(clienteId)) {
 			ResponseEntity.notFound().build();
@@ -64,7 +66,7 @@ public class ClienteController {
 	public ResponseEntity<Void> excluir(@PathVariable Long clienteId) {
 		
 		if (!clienteRepository.existsById(clienteId)) {
-			ResponseEntity.notFound().build();
+			return ResponseEntity.notFound().build();
 		}
 		
 		clienteRepository.deleteById(clienteId);
