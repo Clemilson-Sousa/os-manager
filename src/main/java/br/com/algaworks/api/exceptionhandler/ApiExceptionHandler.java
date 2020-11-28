@@ -1,6 +1,6 @@
 package br.com.algaworks.api.exceptionhandler;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +32,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 		var problema = new Problema();
 		problema.setStatus(status.value());
 		problema.setMensagem(ex.getMessage());
-		problema.setHora(LocalDateTime.now());
+		problema.setHora(OffsetDateTime.now());
 		
 		return handleExceptionInternal(ex, problema, new HttpHeaders(), status, request);
 	}
@@ -53,7 +53,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 		
 		var problema = new Problema();
 		problema.setStatus(status.value());
-		problema.setHora(LocalDateTime.now());
+		problema.setHora(OffsetDateTime.now());
 		problema.setMensagem("Um ou mais campos estão com preenchimento inválidos!");
 		problema.setCampos(campos);
 		

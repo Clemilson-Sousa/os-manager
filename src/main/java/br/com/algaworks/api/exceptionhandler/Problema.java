@@ -1,6 +1,6 @@
 package br.com.algaworks.api.exceptionhandler;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -10,7 +10,7 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 public class Problema {
 	
 	private Integer status;
-	private LocalDateTime hora;
+	private OffsetDateTime hora;
 	private String mensagem;
 	private List<Campos> campos;
 	
@@ -46,10 +46,10 @@ public class Problema {
 	public void setStatus(Integer status) {
 		this.status = status;
 	}
-	public LocalDateTime getHora() {
+	public OffsetDateTime getHora() {
 		return hora;
 	}
-	public void setHora(LocalDateTime hora) {
+	public void setHora(OffsetDateTime hora) {
 		this.hora = hora;
 	}
 	public String getMensagem() {
