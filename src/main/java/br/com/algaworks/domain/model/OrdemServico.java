@@ -1,25 +1,10 @@
 package br.com.algaworks.domain.model;
 
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
-
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.validation.Valid;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.groups.ConvertGroup;
-import javax.validation.groups.Default;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonProperty.Access;
-
-import br.com.algaworks.domain.ValidationGroups;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class OrdemServico {
@@ -28,27 +13,20 @@ public class OrdemServico {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@Valid
-	@ConvertGroup(from = Default.class, to = ValidationGroups.ClienteId.class)
-	@NotNull
 	@ManyToOne
 	private Cliente cliente;
 	
-	@NotBlank
 	private String descricao;
-	
-	@NotNull
 	private BigDecimal preco;
 	
-	@JsonProperty(access = Access.READ_ONLY)
 	@Enumerated(EnumType.STRING)
 	private StatusOrdemServico status;
 	
-	@JsonProperty(access = Access.READ_ONLY)
 	private OffsetDateTime dataAbertura;
-	
-	@JsonProperty(access = Access.READ_ONLY)
 	private OffsetDateTime dataFinalizacao;
+
+	@OneToMany(mappedBy = "ordemServio")
+	private List<Comentario> comentarios = new ArrayList<>();
 	
 	public Long getId() {
 		return id;
@@ -92,6 +70,13 @@ public class OrdemServico {
 	public void setDataFinalizacao(OffsetDateTime dataFinalizacao) {
 		this.dataFinalizacao = dataFinalizacao;
 	}
+	public List<Comentario> getComentarios() {
+		return comentarios;
+	}
+	public void setComentarios(List<Comentario> comentarios) {
+		this.comentarios = comentarios;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -115,5 +100,4 @@ public class OrdemServico {
 			return false;
 		return true;
 	}
-	
 }

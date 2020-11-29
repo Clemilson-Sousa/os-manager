@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
+import br.com.algaworks.api.model.OrdemServicoInput;
 import br.com.algaworks.api.model.OrdemServicoModel;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,8 +40,9 @@ public class OrdemServicoController {
 	
 	@PostMapping()
 	@ResponseStatus(code = HttpStatus.CREATED)
-	public OrdemServico savar(@RequestBody @Valid OrdemServico ordemServico) {
-		return gestaoOrdemServicoService.criar(ordemServico);
+	public OrdemServicoModel criar(@RequestBody @Valid OrdemServicoInput ordemServicoInput) {
+		OrdemServico ordemServico = toEntity(ordemServicoInput);
+		return toModel(gestaoOrdemServicoService.criar(ordemServico));
 	}
 	
 	@GetMapping
@@ -67,5 +69,9 @@ public class OrdemServicoController {
 
 	private List<OrdemServicoModel> toCollectionModel(List<OrdemServico> ordemServicos) {
 		return ordemServicos.stream().map(ordemServico -> toModel(ordemServico)).collect(Collectors.toList());
+	}
+
+	private OrdemServico toEntity(OrdemServicoInput ordemServicoInput) {
+		return modelMapper.map(ordemServicoInput, OrdemServico.class);
 	}
 }
