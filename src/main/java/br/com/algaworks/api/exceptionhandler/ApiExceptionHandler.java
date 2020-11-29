@@ -3,6 +3,7 @@ package br.com.algaworks.api.exceptionhandler;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 
+import br.com.algaworks.domain.exception.EntidadeNaoEncontradaException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -24,6 +25,18 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
 	@Autowired
 	private MessageSource messageSource;
+
+	@ExceptionHandler(EntidadeNaoEncontradaException.class)
+	public ResponseEntity<Object> handleEntidadeNaoEncontrada(EntidadeNaoEncontradaException ex, WebRequest request) {
+		var status = HttpStatus.NOT_FOUND;
+
+		var problema = new Problema();
+		problema.setStatus(status.value());
+		problema.setMensagem(ex.getMessage());
+		problema.setHora(OffsetDateTime.now());
+
+		return handleExceptionInternal(ex, problema, new HttpHeaders(), status, request);
+	}
 	
 	@ExceptionHandler(NegocioException.class)
 	public ResponseEntity<Object> handleNegocio(NegocioException ex, WebRequest request) {

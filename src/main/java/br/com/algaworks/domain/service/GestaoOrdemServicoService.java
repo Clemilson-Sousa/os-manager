@@ -2,6 +2,7 @@ package br.com.algaworks.domain.service;
 
 import java.time.OffsetDateTime;
 
+import br.com.algaworks.domain.exception.EntidadeNaoEncontradaException;
 import br.com.algaworks.domain.model.Comentario;
 import br.com.algaworks.domain.ropository.ComentarioRepositorio;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +41,7 @@ public class GestaoOrdemServicoService {
 
 	public Comentario adicionarComentario(Long ordemServicoId, String descricao) {
 		OrdemServico ordemServico = ordemServicoRepositorio.findById(ordemServicoId)
-				.orElseThrow(() -> new NegocioException("Ordem de serviço não encontrada!"));
+				.orElseThrow(() -> new EntidadeNaoEncontradaException("Ordem de serviço não encontrada!"));
 
 		Comentario comentario = new Comentario();
 		comentario.setDescricao(descricao);
