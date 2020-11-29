@@ -25,7 +25,7 @@ public class OrdemServico {
 	private OffsetDateTime dataAbertura;
 	private OffsetDateTime dataFinalizacao;
 
-	@OneToMany(mappedBy = "ordemServio")
+	@OneToMany(mappedBy = "ordemServico")
 	private List<Comentario> comentarios = new ArrayList<>();
 	
 	public Long getId() {

@@ -11,7 +11,7 @@ public class Comentario {
     private Long id;
 
     @ManyToOne
-    private OrdemServico ordemServio;
+    private OrdemServico ordemServico;
 
     private String descricao;
     private OffsetDateTime dataEnvio;
@@ -32,12 +32,12 @@ public class Comentario {
         this.descricao = descricao;
     }
 
-    public OrdemServico getOrdemServio() {
-        return ordemServio;
+    public OrdemServico getOrdemServico() {
+        return ordemServico;
     }
 
-    public void setOrdemServio(OrdemServico ordemServio) {
-        this.ordemServio = ordemServio;
+    public void setOrdemServico(OrdemServico ordemServico) {
+        this.ordemServico = ordemServico;
     }
 
     public OffsetDateTime getDataEnvio() {

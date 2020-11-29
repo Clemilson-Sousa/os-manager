@@ -2,6 +2,8 @@ package br.com.algaworks.domain.service;
 
 import java.time.OffsetDateTime;
 
+import br.com.algaworks.domain.model.Comentario;
+import br.com.algaworks.domain.ropository.ComentarioRepositorio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +22,9 @@ public class GestaoOrdemServicoService {
 	
 	@Autowired
 	private ClienteRepository clienteRepository;
+
+	@Autowired
+	private ComentarioRepositorio comentarioRepositorio;
 	
 	public OrdemServico criar(OrdemServico ordemServico) {
 		
@@ -31,6 +36,18 @@ public class GestaoOrdemServicoService {
 		ordemServico.setDataAbertura(OffsetDateTime.now());
 		
 		return ordemServicoRepositorio.save(ordemServico);
+	}
+
+	public Comentario adicionarComentario(Long ordemServicoId, String descricao) {
+		OrdemServico ordemServico = ordemServicoRepositorio.findById(ordemServicoId)
+				.orElseThrow(() -> new NegocioException("Ordem de serviço não encontrada!"));
+
+		Comentario comentario = new Comentario();
+		comentario.setDescricao(descricao);
+		comentario.setDataEnvio(OffsetDateTime.now());
+		comentario.setOrdemServico(ordemServico);
+
+		return comentarioRepositorio.save(comentario);
 	}
 
 }
