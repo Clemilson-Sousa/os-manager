@@ -1,5 +1,7 @@
 package br.com.algaworks.domain.model;
 
+import br.com.algaworks.domain.exception.NegocioException;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
@@ -100,4 +102,20 @@ public class OrdemServico {
 			return false;
 		return true;
 	}
+
+	public boolean podeSerFinalizada() {
+		return StatusOrdemServico.ABERTA.equals(getStatus());
+	}
+
+	public boolean naoPodeSerFinalizada() {
+		return !podeSerFinalizada();
+	}
+
+    public void finalizar() {
+		if(naoPodeSerFinalizada()) {
+			throw new NegocioException("Ordem de serviço não pode ser finalizada!");
+		}
+		setStatus(StatusOrdemServico.FINALIZADA);
+		setDataFinalizacao(OffsetDateTime.now());
+    }
 }
